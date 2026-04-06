@@ -1,0 +1,6 @@
+Exception in thread "main" java.io.FileNotFoundException: sample.txt (No such file or directory)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:185)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:139)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:109)
+	at CountBytes.main(CountBytes.java:6)
