@@ -1,38 +1,37 @@
-class SharedCounter {
+class Counter {
     int count = 0;
-
-    void increment() {
+    void inc() {
         count = count + 1;
+    }
+    int getCount() {
+        return count;
     }
 }
 
-class IncrementTask extends Thread {
-    SharedCounter counter;
+class CounterThread extends Thread {
+    Counter c;
 
-    IncrementTask(SharedCounter counter) {
-        this.counter = counter;
+    CounterThread(Counter c) {
+        this.c = c;
     }
 
     public void run() {
-        for (int i = 0; i < 1000; i++) {
-            counter.increment();
-        }
+        for (int i = 0; i < 1000; i++)
+            c.inc();
     }
 }
 
 public class Thread8 {
     public static void main(String[] args) throws Exception {
-        SharedCounter counter = new SharedCounter();
+        Counter c = new Counter();
 
-        IncrementTask t1 = new IncrementTask(counter);
-        IncrementTask t2 = new IncrementTask(counter);
+        CounterThread t1 = new CounterThread(c);
+        CounterThread t2 = new CounterThread(c);
 
-        t1.start();
-        t2.start();
+        t1.start(); t2.start();
 
-        t1.join();
-        t2.join();
+        t1.join(); t2.join();
 
-        System.out.println("Final Counter Value: " + counter.count);
+        System.out.println("Final Count: " + c.count);
     }
 }
