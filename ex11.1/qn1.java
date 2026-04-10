@@ -6,91 +6,72 @@ class Student {
     double marks;
 
     Student(int r, String n, double m) {
-        roll = r;
-        name = n;
-        marks = m;
+        this.roll = r;
+        this.name = n;
+        this.marks = m;
     }
 }
 
-public class StudentFile {
-    static final String FILE = "students.dat";
+public class qn1 {
 
-    // Add Student
-    public static void addStudent(Student s) throws IOException {
-        DataOutputStream dos = new DataOutputStream(new FileOutputStream(FILE, true));
-        dos.writeInt(s.roll);
-        dos.writeUTF(s.name);
-        dos.writeDouble(s.marks);
+    public static void writeStudents() throws IOException {
+        DataOutputStream dos = new DataOutputStream(
+                new FileOutputStream("students.dat"));
+
+        dos.writeInt(1);
+        dos.writeUTF("Hari");
+        dos.writeDouble(85.5);
+
+        dos.writeInt(2);
+        dos.writeUTF("Kesan");
+        dos.writeDouble(90.0);
+
         dos.close();
     }
 
-    // Display All
-    public static void display() throws IOException {
-        DataInputStream dis = new DataInputStream(new FileInputStream(FILE));
+    public static void readStudents() throws IOException {
+        DataInputStream dis = new DataInputStream(
+                new FileInputStream("students.dat"));
+
         try {
             while (true) {
-                System.out.println(dis.readInt() + " " + dis.readUTF() + " " + dis.readDouble());
+                int roll = dis.readInt();
+                String name = dis.readUTF();
+                double marks = dis.readDouble();
+
+                System.out.println(roll + " " + name + " " + marks);
             }
         } catch (EOFException e) {
             dis.close();
         }
     }
 
-    // Search
-    public static void search(int key) throws IOException {
-        DataInputStream dis = new DataInputStream(new FileInputStream(FILE));
-        try {
-            while (true) {
-                int r = dis.readInt();
-                String n = dis.readUTF();
-                double m = dis.readDouble();
+    public static void searchStudent(int target) throws IOException {
+        DataInputStream dis = new DataInputStream(
+                new FileInputStream("students.dat"));
 
-                if (r == key) {
-                    System.out.println("Found: " + n + " " + m);
-                    return;
-                }
-            }
-        } catch (EOFException e) {
-            System.out.println("Not Found");
-            dis.close();
-        }
-    }
-
-    // Delete
-    public static void delete(int key) throws IOException {
-        DataInputStream dis = new DataInputStream(new FileInputStream(FILE));
-        DataOutputStream dos = new DataOutputStream(new FileOutputStream("temp.dat"));
+        boolean found = false;
 
         try {
             while (true) {
-                int r = dis.readInt();
-                String n = dis.readUTF();
-                double m = dis.readDouble();
+                int roll = dis.readInt();
+                String name = dis.readUTF();
+                double marks = dis.readDouble();
 
-                if (r != key) {
-                    dos.writeInt(r);
-                    dos.writeUTF(n);
-                    dos.writeDouble(m);
+                if (roll == target) {
+                    System.out.println("Found: " + name + " " + marks);
+                    found = true;
                 }
             }
         } catch (EOFException e) {
+            if (!found) System.out.println("Not Found");
             dis.close();
-            dos.close();
         }
-
-        new File(FILE).delete();
-        new File("temp.dat").renameTo(new File(FILE));
     }
 
     public static void main(String[] args) throws Exception {
-        addStudent(new Student(1, "Hari", 90));
-        addStudent(new Student(2, "Ram", 85));
-
-        display();
-        search(1);
-        delete(2);
-
-        System.out.println("After delete:");
-        display();
+        writeStudents();
+        readStudents();
+        searchStudent(1);
     }
 }
