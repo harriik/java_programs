@@ -1,0 +1,8 @@
+----- FILE ANALYSIS REPORT -----
+Total Lines        : 1
+Total Words        : 5
+Total Characters   : 22
+Uppercase Letters  : 2
+Lowercase Letters  : 14
+Vowels             : 6
+Digits             : 0
