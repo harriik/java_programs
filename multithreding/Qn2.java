@@ -1,39 +1,44 @@
-class TimedMessageThread extends Thread {
-    String text;
-    int delay;
+//Write a JAVA program that creates threads by extending Thread class.
+//  First thread display “Good Morning “ every 1 sec, the second thread displays
+//  “Hello “every 2 seconds and the third display “Welcome” every 3 seconds. 
 
-    TimedMessageThread(String text, int delay) {
-        this.text = text;
+class MyThread extends Thread{
+    String name;
+    int delay;
+    public MyThread(String name, int delay){
+        this.name = name;
         this.delay = delay;
     }
-
+   
     public void run() {
-        try {
-            for (int i = 0; i < 5; i++) {
-                System.out.println(text);
+        try{
+                for(int i=0;i<3;i++){
+                System.out.println(this.name);
                 Thread.sleep(delay);
-                
-
-            }
-        } catch (InterruptedException e) {
+            }    
+        }catch(InterruptedException e){
+            System.out.println("Thread Interrupted");
         }
+       
     }
 }
 
-public class Qn2 {
-    public static void main(String[] args) throws Exception {
-        TimedMessageThread morning = new TimedMessageThread("GoodMorning", 1000);
-        TimedMessageThread hello = new TimedMessageThread("Hello",2000);
-        TimedMessageThread welcome = new TimedMessageThread("Welcome",3000);
+public class Qn2
+{
+public static void main(String[] args) throws Exception{
+MyThread t1 = new MyThread("Good Morning", 1000);
+MyThread t2 = new MyThread("Hello", 2000);
+MyThread t3 = new MyThread("Welcome", 3000);
 
-        morning.start();
-        hello.start();
-        welcome.start();
+t1.start();
+t1.join();
 
-        morning.join();
-        hello.join();
-        welcome.join();
+t2.start();
+t2.join();
 
-        System.out.println("Bye Bye See You All");
-    }
+t3.start();
+t3.join();
+
+System.out.println("Threads executed");
+}
 }
